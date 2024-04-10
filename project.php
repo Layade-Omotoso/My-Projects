@@ -9,7 +9,7 @@
     <style>
         .mainDiv{
             background: #eee;
-            border-radius: 10px;
+            border-radius: 10px 10px 10px 0px;
             margin:5px 10px;
             padding: 10px 5px; 
             box-shadow:2px 2px 2px 2px;
@@ -27,7 +27,7 @@
             padding: 2px 10px;
             border:1px solid black;
             align:left;
-            border-radius: 5px;
+            border-radius: 5px 5px 5px 0px;
         }
 
         .ass1{
@@ -59,10 +59,11 @@
            
         }
 
-        #time{
-            color:red;
+        .timef{
             padding: 2px 5px;
             align: right;
+            font-size:9pt;
+            margin-left: 10px;
         }
 
         #taskform{
@@ -108,7 +109,7 @@
        <form action="insert.php" method="POST">
        <span class='formlabel'>Task Details  </span><input id='tn' type="text" name="taskname"  placeholder='Task Description '>
        <span class='formlabel'>Assign to </span> <input id='tt' type="text" name="assignto"  placeholder='Team Name '>
-       <span class='formlabel'>Timeframe </span> <input id='tf' type="text" name="timeframe" placeholder='in days'>
+       <span class='formlabel'>Timeframe </span> <input id='tf' type="number" name="timeframe" placeholder='in days'>
        <input type="submit" value="Add Task" id='btn'>
    </div> 
     
@@ -131,7 +132,8 @@ if(mysqli_num_rows($result)>0){
         echo "<DIV id='task'>".$row["TaskName"]." </DIV>";
         echo "<DIV class='to'>";
         echo "<span id='ass'>To: ".$row["AssignTo"]." </span> ";
-        echo "<span id='time'>".$row["Timeframe"]." day(s) </span>";
+        echo "<span class='timef'>Start: ".$row["Start"]." </span>";
+        echo "<span class='timef'> End: ".$row["End"]." </span>";
         echo "</DIV>";
         echo "<DIV class='to'>";
         echo "<form class='action'action='down.php' method='post'><input type='submit' class='tn' name='del' value='Delete'>";
@@ -153,13 +155,15 @@ echo "</td>";
 $sel = "SELECT * FROM `taskinfo` WHERE `status` = 1 ORDER BY `SN` ASC";
 $result = mysqli_query($conn,$sel);
 echo "<td width='33%' valign='top'>";
+
 if(mysqli_num_rows($result)>0){
     while($row = mysqli_fetch_assoc($result)){
         echo "<div class='mainDiv'>";
         echo "<DIV id='task'>".$row["TaskName"]." </DIV>";
         echo "<DIV class='to'>";
         echo "<span id='ass'>To: ".$row["AssignTo"]." </span> ";
-        echo "<span id='time'>".$row["Timeframe"]." day(s) </span>";
+        echo "<span class='timef'>Start: ".$row["Start"]." </span>";
+        echo "<span class='timef'> End: ".$row["End"]." </span>";
         echo "</DIV>";
         echo "<DIV class='to'>";
         echo "<form class='action'action='down.php' method='post'><input type='submit' class='tn' name='del' value='Undo'>";
@@ -187,11 +191,10 @@ if(mysqli_num_rows($result)>0){
         echo "<DIV id='task'>".$row["TaskName"]." </DIV>";
         echo "<DIV class='to'>";
         echo "<span id='ass'>To: ".$row["AssignTo"]." </span> ";
-        echo "<span id='time'>".$row["Timeframe"]." day(s) </span>";
+        echo "<span class='timef'>Start: ".$row["Start"]." </span>";
+        echo "<span class='timef'> End: ".$row["End"]." </span>";
         echo "</DIV>";
         echo "<DIV class='to'>";
-        // echo "<form class='action'action='down.php' method='post'><input type='submit' class='tn' name='del' value='Delete'>";
-        // echo "<input type='hidden' value=".$row["TaskID"]." name='del'> </form>";
         echo "<form class='action' action='up.php' method='post'><input type='submit' class='tn' name='start' value='Trash'>";
         echo "<input type='hidden' value=".$row["TaskID"]." name='start'> </form>";  
         echo "</DIV>" ;
